@@ -1,0 +1,307 @@
+{
+  "meta": {
+    "title": "Daily Reflection Tree",
+    "version": "1.0",
+    "axes": [
+      "Locus",
+      "Orientation",
+      "Radius"
+    ],
+    "description": "End of day reflection tool. Deterministic. No API calls at runtime."
+  },
+  "nodes": [
+    {
+      "id": "START",
+      "type": "start",
+      "text": "Hey. Before you close the laptop — just a few questions about today.",
+      "next": "Q1"
+    },
+    {
+      "id": "Q1",
+      "type": "question",
+      "axis": 1,
+      "text": "Pick one word for today.",
+      "options": [
+        {"label": "A", "text": "Good",     "signal": "victor"},
+        {"label": "B", "text": "Okay",     "signal": "victor"},
+        {"label": "C", "text": "Hard",     "signal": "victim"},
+        {"label": "D", "text": "Draining", "signal": "victim"}
+      ],
+      "next": "D1"
+    },
+    {
+      "id": "D1",
+      "type": "decision",
+      "axis": 1,
+      "rule": "if Q1.signal is victor go to Q2a, else go to Q2b"
+    },
+    {
+      "id": "Q2a",
+      "type": "question",
+      "axis": 1,
+      "path": "victor",
+      "text": "Something went well today. What actually made that happen?",
+      "options": [
+        {"label": "A", "text": "I put in the prep beforehand",                 "signal": "internal"},
+        {"label": "B", "text": "I kept going when it got uncomfortable",       "signal": "internal"},
+        {"label": "C", "text": "I changed approach when the first one failed", "signal": "internal"},
+        {"label": "D", "text": "Honestly the team carried it",                 "signal": "shared"}
+      ],
+      "next": "Q2a_follow"
+    },
+    {
+      "id": "Q2a_follow",
+      "type": "question",
+      "axis": 1,
+      "path": "victor",
+      "text": "Was there a point today where you nearly stopped but kept going anyway?",
+      "options": [
+        {"label": "A", "text": "Yes and it paid off",                    "signal": "internal"},
+        {"label": "B", "text": "Yes but I am still not sure it was right","signal": "mixed"},
+        {"label": "C", "text": "Not really, today was manageable",       "signal": "internal"},
+        {"label": "D", "text": "I did stop on something and it was fine", "signal": "adaptive"}
+      ],
+      "next": "R1"
+    },
+    {
+      "id": "Q2b",
+      "type": "question",
+      "axis": 1,
+      "path": "victim",
+      "text": "When things went sideways today, where did your head go first?",
+      "options": [
+        {"label": "A", "text": "I went straight to what I could have done differently", "signal": "internal"},
+        {"label": "B", "text": "I blamed someone else, at least at first",              "signal": "external"},
+        {"label": "C", "text": "I sat and waited for it to get fixed",                 "signal": "external"},
+        {"label": "D", "text": "I felt like the day was working against me",           "signal": "external"}
+      ],
+      "next": "Q2b_follow"
+    },
+    {
+      "id": "Q2b_follow",
+      "type": "question",
+      "axis": 1,
+      "path": "victim",
+      "text": "Was there even one moment today where the choice was fully yours?",
+      "options": [
+        {"label": "A", "text": "Yes and I made a decent call",               "signal": "internal"},
+        {"label": "B", "text": "Yes and I made a bad one, I know that now",  "signal": "aware"},
+        {"label": "C", "text": "I genuinely felt like I had no real options","signal": "external"},
+        {"label": "D", "text": "I did not look at it that way",              "signal": "external"}
+      ],
+      "next": "R1"
+    },
+    {
+      "id": "R1",
+      "type": "reflection",
+      "axis": 1,
+      "text": "You called today '{Q1.answer}'. Somewhere in that day there was a moment where how you responded was up to you. Even a small one counts.",
+      "next": "BRIDGE1"
+    },
+    {
+      "id": "BRIDGE1",
+      "type": "bridge",
+      "text": "OK. Now less about what happened and more about what you brought to it.",
+      "next": "Q3"
+    },
+    {
+      "id": "Q3",
+      "type": "question",
+      "axis": 2,
+      "text": "Which of these sounds most like your day?",
+      "options": [
+        {"label": "A", "text": "I helped someone out with something that was not my job",     "signal": "contribution"},
+        {"label": "B", "text": "I did more than what was asked without making a thing of it", "signal": "contribution"},
+        {"label": "C", "text": "I felt like my effort went unnoticed by the people who matter","signal": "entitlement"},
+        {"label": "D", "text": "I was annoyed that some people were not pulling their weight", "signal": "entitlement"}
+      ],
+      "next": "D2"
+    },
+    {
+      "id": "D2",
+      "type": "decision",
+      "axis": 2,
+      "rule": "if Q3.signal is contribution go to Q4a, else go to Q4b"
+    },
+    {
+      "id": "Q4a",
+      "type": "question",
+      "axis": 2,
+      "path": "contribution",
+      "text": "What did you actually give today that no one asked for?",
+      "options": [
+        {"label": "A", "text": "Time to help someone who was stuck",              "signal": "contribution"},
+        {"label": "B", "text": "A suggestion that could make something work better","signal": "contribution"},
+        {"label": "C", "text": "A bit of energy when the room needed it",         "signal": "contribution"},
+        {"label": "D", "text": "Extra time to finish something properly",         "signal": "contribution"}
+      ],
+      "next": "Q4a_follow"
+    },
+    {
+      "id": "Q4a_follow",
+      "type": "question",
+      "axis": 2,
+      "path": "contribution",
+      "text": "Did anyone say thank you — and did it matter to you whether they did?",
+      "options": [
+        {"label": "A", "text": "They did and it honestly made no difference to me","signal": "pure_contribution"},
+        {"label": "B", "text": "They did and I will not pretend that was not nice", "signal": "contribution"},
+        {"label": "C", "text": "They did not and I was fine with that",             "signal": "contribution"},
+        {"label": "D", "text": "They did not and I noticed that I cared",          "signal": "mixed"}
+      ],
+      "next": "R2"
+    },
+    {
+      "id": "Q4b",
+      "type": "question",
+      "axis": 2,
+      "path": "entitlement",
+      "text": "What felt most off today?",
+      "options": [
+        {"label": "A", "text": "The people who should have noticed my work did not",  "signal": "entitlement"},
+        {"label": "B", "text": "Someone else got credit for something I had a hand in","signal": "entitlement"},
+        {"label": "C", "text": "I ended up carrying more than my share",              "signal": "entitlement"},
+        {"label": "D", "text": "I expected some feedback and it never came",          "signal": "entitlement"}
+      ],
+      "next": "Q4b_follow"
+    },
+    {
+      "id": "Q4b_follow",
+      "type": "question",
+      "axis": 2,
+      "path": "entitlement",
+      "text": "Was there anything you did today that you did not need anyone to see?",
+      "options": [
+        {"label": "A", "text": "Yes actually, and thinking about it now changes the picture a bit","signal": "mixed"},
+        {"label": "B", "text": "Yes but that does not cancel out what felt unfair",              "signal": "entitlement"},
+        {"label": "C", "text": "Not really, most of what I did was just expected of me",         "signal": "entitlement"},
+        {"label": "D", "text": "I need to sit with that question",                               "signal": "reflective"}
+      ],
+      "next": "R2"
+    },
+    {
+      "id": "R2",
+      "type": "reflection",
+      "axis": 2,
+      "text": "Quick check: did you keep score today based on what you gave, or on what came back to you? Worth knowing which one it was.",
+      "next": "BRIDGE2"
+    },
+    {
+      "id": "BRIDGE2",
+      "type": "bridge",
+      "text": "Last section. Zoom out a bit.",
+      "next": "Q5"
+    },
+    {
+      "id": "Q5",
+      "type": "question",
+      "axis": 3,
+      "text": "Think about the toughest part of today. Who is in that picture?",
+      "options": [
+        {"label": "A", "text": "Mostly me, it was my problem",             "signal": "self"},
+        {"label": "B", "text": "The team, we were all in it",              "signal": "altrocentric"},
+        {"label": "C", "text": "One particular person who had it rougher", "signal": "altrocentric"},
+        {"label": "D", "text": "The customer or end user on the other side","signal": "altrocentric"}
+      ],
+      "next": "D3"
+    },
+    {
+      "id": "D3",
+      "type": "decision",
+      "axis": 3,
+      "rule": "if Q5.signal is altrocentric go to Q6a, else go to Q6b"
+    },
+    {
+      "id": "Q6a",
+      "type": "question",
+      "axis": 3,
+      "path": "altrocentric",
+      "text": "How did what you did today land with the people around you?",
+      "options": [
+        {"label": "A", "text": "I made someone's work or day a bit easier",          "signal": "altrocentric"},
+        {"label": "B", "text": "I checked in on someone who looked like they needed it","signal": "altrocentric"},
+        {"label": "C", "text": "I probably added to someone's stress without meaning to","signal": "self"},
+        {"label": "D", "text": "I did not really clock it either way",               "signal": "self"}
+      ],
+      "next": "Q6a_follow"
+    },
+    {
+      "id": "Q6a_follow",
+      "type": "question",
+      "axis": 3,
+      "path": "altrocentric",
+      "text": "When you helped someone today, what was actually driving that?",
+      "options": [
+        {"label": "A", "text": "It just seemed like the right thing to do",         "signal": "altrocentric"},
+        {"label": "B", "text": "I could see they needed it and I had the space",    "signal": "altrocentric"},
+        {"label": "C", "text": "Part of me hoped they would return the favour",     "signal": "mixed"},
+        {"label": "D", "text": "I am not sure, it was more automatic than anything","signal": "altrocentric"}
+      ],
+      "next": "R3"
+    },
+    {
+      "id": "Q6b",
+      "type": "question",
+      "axis": 3,
+      "path": "self",
+      "text": "Was there anyone around you today who was having a harder time than you?",
+      "options": [
+        {"label": "A", "text": "Yes and I made sure they knew I noticed",        "signal": "altrocentric"},
+        {"label": "B", "text": "Yes but I was too wrapped up in my own stuff",   "signal": "self"},
+        {"label": "C", "text": "I did not pick up on it if there was",           "signal": "self"},
+        {"label": "D", "text": "Everyone seemed alright from where I was sitting","signal": "self"}
+      ],
+      "next": "Q6b_follow"
+    },
+    {
+      "id": "Q6b_follow",
+      "type": "question",
+      "axis": 3,
+      "path": "self",
+      "text": "Is there someone from today whose experience of it you actually do not know?",
+      "options": [
+        {"label": "A", "text": "Yes and I should probably have asked",         "signal": "reflective"},
+        {"label": "B", "text": "Probably, but today was not the day for that", "signal": "self"},
+        {"label": "C", "text": "No, I had a decent read on the room",          "signal": "altrocentric"},
+        {"label": "D", "text": "That is a new way to think about it for me",   "signal": "reflective"}
+      ],
+      "next": "R3"
+    },
+    {
+      "id": "R3",
+      "type": "reflection",
+      "axis": 3,
+      "text": "The days people remember are not usually the ones where everything went well for them personally. They remember the ones where they were actually present for someone.",
+      "next": "R_CLOSE"
+    },
+    {
+      "id": "R_CLOSE",
+      "type": "reflection",
+      "axis": null,
+      "text": "That is three questions done. You know yourself a bit better than you did ten minutes ago.",
+      "next": "D4"
+    },
+    {
+      "id": "D4",
+      "type": "decision",
+      "axis": null,
+      "rule": "combine axis1_signal + axis2_signal + axis3_signal to pick closing insight"
+    },
+    {
+      "id": "SUMMARY",
+      "type": "summary",
+      "text": "Today: [{axis1_signal}] · [{axis2_signal}] · [{axis3_signal}]",
+      "closing": "For tomorrow: {closing_insight}",
+      "closing_insights": {
+        "victor+contribution+altrocentric": "You showed up well today — for yourself and for other people. Do that again.",
+        "victor+contribution+self":         "You did good work and gave more than required. Tomorrow try looking up and seeing who else is in the room.",
+        "victor+entitlement+altrocentric":  "You noticed the people around you which is good. The next step is thinking about what you can put in before thinking about what you are owed.",
+        "victor+entitlement+self":          "You handled your day well. Worth asking tomorrow: what can I give here, not just what do I deserve.",
+        "victim+contribution+altrocentric": "Rough day, but you still showed up for others. That is not nothing.",
+        "victim+contribution+self":         "You gave something today even when the day was hard. Tomorrow, look up once and see if someone else needs it.",
+        "victim+entitlement+altrocentric":  "You were aware of others which counts. When the days feel heavier, one small thing you do for someone else tends to shift the whole frame.",
+        "victim+entitlement+self":          "Today was heavy. Fine. Tomorrow pick one thing: respond instead of react, give one thing, notice one person. Just one."
+      }
+    }
+  ]
+}
